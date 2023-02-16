@@ -22,16 +22,17 @@ fun main() {
     printSeparationLine()
 
     val getCityHasCheapestInternetConnectionInteractor = GetCityHasCheapestInternetConnectionInteractor(dataSource)
-    println(getCityHasCheapestInternetConnectionInteractor.execute( 1 ))
+    println(getCityHasCheapestInternetConnectionInteractor.execute(1))
     printSeparationLine()
 
-    val getCheapestBananaPricesCitiesNamesInteractor=GetCheapestBananaPricesCitiesNamesInteractor(dataSource)
+    val getCheapestBananaPricesCitiesNamesInteractor = GetCheapestBananaPricesCitiesNamesInteractor(dataSource)
     getCheapestBananaPricesCitiesNamesInteractor.apply {
-       println(execute(*getCitiesVarArgs()))
+        println(execute(*getCitiesVarArgs()))
     }
     printSeparationLine()
 
-    val getBestClothesPriceCitiesNameInteractor = GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(dataSource)
+    val getBestClothesPriceCitiesNameInteractor =
+        GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(dataSource)
     println(getBestClothesPriceCitiesNameInteractor.execute(limit = 5))
     printSeparationLine()
 
@@ -39,11 +40,12 @@ fun main() {
     println(getCityNameAndSalaryAverageInteractor.execute("Egypt"))
     printSeparationLine()
 
-    val getMostSuitableCityForMoreSavingsPerMonthInteractor = GetMostSuitableCityForMoreSavingsPerMonthInteractor(dataSource)
+    val getMostSuitableCityForMoreSavingsPerMonthInteractor =
+        GetMostSuitableCityForMoreSavingsPerMonthInteractor(dataSource)
     getMostSuitableCityForMoreSavingsPerMonthInteractor.apply {
         println(execute())
     }
-     printSeparationLine()
+    printSeparationLine()
 
     val getCityManagerExpectationInteractor = GetCityManagerExpectationInteractor(dataSource)
     println(getCityManagerExpectationInteractor.execute())
@@ -52,7 +54,13 @@ fun main() {
     val getCityHasHighestRentingBetweenApartmentsInteractor =
         GetCityHasHighestRentingBetweenApartmentsInteractor(dataSource)
     println(getCityHasHighestRentingBetweenApartmentsInteractor.execute().cityName)
+    printSeparationLine()
 
+    val getHighestCarbonatedDrinksPricesInteractor = GetHighestCarbonatedDrinksPricesInteractor(dataSource)
+    getHighestCarbonatedDrinksPricesInteractor.execute(10).forEach{
+        println("country : ${it.first}   average carbonated Drinks prices : ${it.second}")
+    }
+    printSeparationLine()
 }
 
 private fun printSeparationLine() {
