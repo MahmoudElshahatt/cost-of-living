@@ -52,4 +52,5 @@ class GetMostSuitableCityForMoreSavingsPerMonthInteractor(
         const val OTHER_NEEDS_LIMIT = 250f
         const val SALARY_DIFFERENCE = 2f
     }
+
 }
