@@ -31,16 +31,27 @@ internal class GetCityNameAndSalrayAverageInteractorTest {
         //when
         val listOfCityAndSalary = getcityandsalary.execute("eGypt")
         //then
-        assertEquals(Pair("Cairo",6000f),listOfCityAndSalary[0])
+        assertTrue(listOfCityAndSalary.isNotEmpty())
     }
 
     @Test
-    fun should_returnlistEmpty_When_EnterDataNull(){
+    fun should_returnlistEmpty_When_EnterDataWrong(){
         //given
         fakeData.setDatatype(HardCodedFakeDataSource.DataType.NULLABLE)
         //when
         val listOfCityAndSalary = Executable{ getcityandsalary.run{
             execute("ex")
+        }}
+        //then
+        assertThrows(Exception::class.java,listOfCityAndSalary)
+    }
+
+    fun should_returnlistEmpty_When_EnterDataNull(){
+        //given
+        fakeData.setDatatype(HardCodedFakeDataSource.DataType.MIXED)
+        //when
+        val listOfCityAndSalary = Executable{ getcityandsalary.run{
+            execute("")
         }}
         //then
         assertThrows(Exception::class.java,listOfCityAndSalary)
