@@ -57,8 +57,8 @@ fun main() {
     printSeparationLine()
 
     val getHighestCarbonatedDrinksPricesInteractor = GetHighestCarbonatedDrinksPricesInteractor(dataSource)
-    getHighestCarbonatedDrinksPricesInteractor.execute(10).forEach{
-        println("country : ${it.first}   average carbonated Drinks prices : ${it.second}")
+    getHighestCarbonatedDrinksPricesInteractor.execute(10)!!.forEach{
+        println("country : ${it.first} " +"  average carbonated Drinks prices : ${it.second}")
     }
     printSeparationLine()
 }

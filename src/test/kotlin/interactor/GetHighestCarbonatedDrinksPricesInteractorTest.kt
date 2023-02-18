@@ -25,7 +25,7 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
         //given
         fakeData.setDataType(FakeDataSource.DataType.VALID)
         //when
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
         //then
         assertTrue(listOfCountries.toSet().size == 10)
     }
@@ -35,7 +35,7 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
         //given
         fakeData.setDataType(FakeDataSource.DataType.LOWQUALITY)
         //when
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
         //then
         assertTrue(listOfCountries.isEmpty())
     }
@@ -46,7 +46,7 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
         fakeData.setDataType(FakeDataSource.DataType.NULLABLE)
 
         //when
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
         //then return empty list
         assertTrue(listOfCountries.isEmpty())
     }
@@ -57,7 +57,7 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
         fakeData.setDataType(FakeDataSource.DataType.VALID)
         //when
         val limit=99999
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(limit)
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(limit)!!
         //then
         assertTrue(listOfCountries.size<limit)
     }
