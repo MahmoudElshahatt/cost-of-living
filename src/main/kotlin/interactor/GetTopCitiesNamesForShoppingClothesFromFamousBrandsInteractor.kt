@@ -2,7 +2,7 @@ package interactor
 
 import model.CityEntity
 
-class GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(
+class GetTopCitiesNamesForShoppingClothesFromFamousBrandsInteractor(
     private val dataSource: CostOfLivingDataSource,
 ) {
 
@@ -10,16 +10,7 @@ class GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(
         return dataSource
             .getAllCitiesData()
             .filter(::excludeNullClothesPricesAndBrandClothesData)
-            .sortedByDescending {
-                it.clothesPrices.onePairOfJeansLevis50oneOrSimilar
-                    ?.plus(
-                        it.clothesPrices.onePairOfMenLeatherBusinessShoes
-                        !!.plus(
-                            it.clothesPrices.onePairOfNikeRunningShoesMidRange!!
-                                .plus(it.clothesPrices.oneSummerDressInAChainStoreZaraHAndM!!)
-                        )
-                    )
-            }
+            .sortByClothesPrices()
             .take( limit )
             .map { it.cityName }
     }
@@ -30,6 +21,14 @@ class GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(
                 city.clothesPrices.onePairOfMenLeatherBusinessShoes != null &&
                 city.clothesPrices.onePairOfNikeRunningShoesMidRange != null &&
                 city.clothesPrices.oneSummerDressInAChainStoreZaraHAndM != null
+    }
+
+
+    private fun List<CityEntity> .sortByClothesPrices(): List<CityEntity> {
+        return this.sortedByDescending { it.clothesPrices.onePairOfJeansLevis50oneOrSimilar!! +
+                it.clothesPrices.onePairOfNikeRunningShoesMidRange!! +
+                it.clothesPrices.oneSummerDressInAChainStoreZaraHAndM!! +
+                it.clothesPrices.onePairOfMenLeatherBusinessShoes!! }
     }
 
 
