@@ -10,9 +10,9 @@ fun main() {
     println(getHighestSalaryAverageCities.execute(limit = 10))
     printSeparationLine()
 
-    val getTenCitiesHaveTheAverageOfFruitsAndVegetablesPrices =
-        GetTenCitiesHaveTheAverageOfFruitsAndVegetablesPricesInteractor(dataSource)
-    println(getTenCitiesHaveTheAverageOfFruitsAndVegetablesPrices.execute())
+    val getCitiesHaveTheAverageOfFruitsAndVegetablesPrices =
+        GetCitiesHaveTheAverageOfFruitsAndVegetablesPricesInteractor(dataSource)
+    println(getCitiesHaveTheAverageOfFruitsAndVegetablesPrices.execute(10))
     printSeparationLine()
 
     val getCheapestApartmentsCitiesNamesInteractor = GetCheapestApartmentsCitiesNamesInteractor(dataSource)
