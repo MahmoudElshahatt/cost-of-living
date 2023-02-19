@@ -6,20 +6,17 @@ import model.CityEntity
 class GetCheapestBananaPricesCitiesNamesInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
-    fun getCitiesVarArgs(): List<CityEntity> {
-        return dataSource.getAllCitiesData()
-    }
 
     fun execute(
         limit: Int = DEFAULT_LIMIT,
-        vararg cityEntities: CityEntity
+        vararg cityEntities: CityEntity = dataSource.getAllCitiesData().toTypedArray()
     ): List<String> {
         return cityEntities
             .filter { it.fruitAndVegetablesPrices.banana1kg != null }
             .sortedBy { it.fruitAndVegetablesPrices.banana1kg }
             .take(limit)
             .map { it.cityName }
-            .takeIf { it.isNotEmpty() } ?: listOf("No Valid Data is Entered !")
+            .takeIf { it.isNotEmpty() && it.size == limit } ?: listOf("No Valid Data is Entered !")
     }
 
     object Const {
