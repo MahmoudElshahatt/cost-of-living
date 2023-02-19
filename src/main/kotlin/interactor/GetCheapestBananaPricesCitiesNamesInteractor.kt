@@ -16,7 +16,8 @@ class GetCheapestBananaPricesCitiesNamesInteractor(
             .sortedBy { it.fruitAndVegetablesPrices.banana1kg }
             .take(limit)
             .map { it.cityName }
-            .takeIf { it.isNotEmpty() && it.size == limit } ?: listOf("No Valid Data is Entered !")
+            .takeIf { it.isNotEmpty() && it.size == limit }
+            ?: listOf("Couldn't find Cities that meet your requirements !")
     }
 
     object Const {

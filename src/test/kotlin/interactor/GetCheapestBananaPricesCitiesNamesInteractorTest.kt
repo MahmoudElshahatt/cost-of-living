@@ -38,7 +38,7 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         //When entering null for all banana prices
         val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10)
         //Then No Valid Data is Entered ! is returned
-        assertEquals(listOf("No Valid Data is Entered !"), list)
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10, *array)
 
         //Then No Valid Data is Entered ! is returned
-        assertEquals(listOf("No Valid Data is Entered !"), list)
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
     }
 
     @Test
@@ -62,7 +62,7 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         val list = getCheapestBananaPricesCitiesNamesInteractor.execute(100)
 
         //Then No Valid Data is Entered ! is returned
-        assertEquals(listOf("No Valid Data is Entered !"), list)
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
     }
 
 
