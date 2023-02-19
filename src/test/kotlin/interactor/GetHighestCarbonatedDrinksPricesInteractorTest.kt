@@ -22,43 +22,42 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
 
     @Test
     fun should_return_listOfPairs_When_Data_Valid() {
-        //given
+        //given a valid list of Data
         fakeData.setDataType(FakeDataSource.DataType.VALID)
-        //when
+        //when getting a list of (limit) of the Highest countries Prices
         val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
-        //then
+        //then return a list of the limit sorted by descending
         assertTrue(listOfCountries.toSet().size == 10)
     }
 
     @Test
     fun should_return_empty_When_Data_LowQuality() {
-        //given
+        //given a list of low quality data
         fakeData.setDataType(FakeDataSource.DataType.LOWQUALITY)
         //when
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
-        //then
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute()!!
+        //then return an empty list
         assertTrue(listOfCountries.isEmpty())
     }
 
     @Test
     fun should_return_empty_List_When_Data_NotFound() {
-        //given
+        //given a list of null values
         fakeData.setDataType(FakeDataSource.DataType.NULLABLE)
-
         //when
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
-        //then return empty list
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute()!!
+        //then return an empty list
         assertTrue(listOfCountries.isEmpty())
     }
 
     @Test
     fun should_return_list_of_available_countries_when_limit_is_greater_than_number_of_countries_available() {
-        //given
+        //given a list of valid Data
         fakeData.setDataType(FakeDataSource.DataType.VALID)
-        //when
+        //when the limit asked is larger than the whole list's size
         val limit=99999
         val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(limit)!!
-        //then
-        assertTrue(listOfCountries.size<limit)
+        //then return a list of the whole size not the limit sorted by descending
+        assertTrue( listOfCountries.size<limit)
     }
 }

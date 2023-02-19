@@ -4,7 +4,7 @@ import model.CityEntity
 
 
 class GetHighestCarbonatedDrinksPricesInteractor(private val dataSource: CostOfLivingDataSource) {
-    fun execute(limit: Int): List<Pair<String, Float>>? {
+    fun execute(limit: Int=10): List<Pair<String, Float>>? {
 
         val city: List<CityEntity> = dataSource.getAllCitiesData().filter { nullAndLowQualityDrinks(it) }
 
@@ -18,8 +18,8 @@ class GetHighestCarbonatedDrinksPricesInteractor(private val dataSource: CostOfL
     }
 
     private fun nullAndLowQualityDrinks(cityEntity: CityEntity): Boolean =
-        cityEntity.drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants != null &&
-        cityEntity.dataQuality
+        cityEntity.run {  drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants != null &&
+        dataQuality}
 
 
     // function to return the average prices for only one city
@@ -37,11 +37,12 @@ class GetHighestCarbonatedDrinksPricesInteractor(private val dataSource: CostOfL
          list.map { avgPriceForACountry(it) }
 
 
-    //  sort the list into a sorted set
+    //  sort the list into a sorted list of pairs of country and average prices
     private fun listOfCountries(list: List<CityEntity>, limit: Int): List<Pair<String, Float>> {
         val listOfPairsCountriesAndPrices: List<Pair<String, Float>>
         val listOFCountries = list.groupBy { it.country }
         val listOfPrices = avgPricesForAListOfCountries(listOFCountries.values.toList())
+
         listOfPairsCountriesAndPrices = listOFCountries.keys.toList().zip(listOfPrices)
 
         return listOfPairsCountriesAndPrices.sortedByDescending { it.second }.take(limit)
