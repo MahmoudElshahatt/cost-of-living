@@ -34,7 +34,7 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
 
     @Test
     fun should_ReturnNotValidList_When_EnterNullForAllBananaPrices() {
-        //Given data is all nullable
+        //Given data is all null
         fakeData.setDataType(FakeDataSource.DataType.NULLABLE)
         //When entering null for all banana prices
         val list = getCheapestBananaPricesCitiesNamesInteractor.run {
