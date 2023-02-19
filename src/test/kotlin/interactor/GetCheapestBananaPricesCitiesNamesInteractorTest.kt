@@ -25,9 +25,8 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         //Given data is valid
         fakeData.setDataType(FakeDataSource.DataType.VALID)
         //When valid data is entered
-        val list = getCheapestBananaPricesCitiesNamesInteractor.run {
-            execute(10)
-        }
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10)
+        
         //Then list is sorted and its size = limit
         assertTrue(list.size == 10)
     }
@@ -37,9 +36,7 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         //Given data is all null
         fakeData.setDataType(FakeDataSource.DataType.NULLABLE)
         //When entering null for all banana prices
-        val list = getCheapestBananaPricesCitiesNamesInteractor.run {
-            execute(10)
-        }
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10)
         //Then No Valid Data is Entered ! is returned
         assertEquals(listOf("No Valid Data is Entered !"), list)
     }
