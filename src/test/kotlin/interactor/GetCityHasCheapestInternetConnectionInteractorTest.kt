@@ -22,11 +22,11 @@ internal class GetCityHasCheapestInternetConnectionInteractorTest(){
 
     @Test
     fun should_ReturnCity_When_EnterValidData() {
-        //Given the valid
+        //Given valid data
         hardCodedFakeDataSource.setDatatype(HardCodedFakeDataSource.DataType.VALID)
-        //When enter the valid data
+        //When limit is one
         val city = getCityHasCheapestInternetConnectionInteractor.execute(1)
-        //Then return the city
+        //Then return the city name
         assertEquals("paris",city)
 
     }
