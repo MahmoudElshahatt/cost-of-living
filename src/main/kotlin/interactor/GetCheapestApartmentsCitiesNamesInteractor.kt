@@ -6,7 +6,7 @@ class GetCheapestApartmentsCitiesNamesInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
 
-    object Const {
+    private companion object Const {
         const val MONTHS_OF_THE_YEAR = 12
     }
 
