@@ -1,7 +1,5 @@
 package interactor
 
-import interactor.GetCitiesHaveTheAverageOfFruitsAndVegetablesPricesInteractor
-.NumberOfItems.NUMBER_OF_FRUITS_AND_VEGETALES
 import model.CityEntity
 
 class GetCitiesHaveTheAverageOfFruitsAndVegetablesPricesInteractor
@@ -9,35 +7,32 @@ class GetCitiesHaveTheAverageOfFruitsAndVegetablesPricesInteractor
 
     fun execute(limit: Int): List<String> {
         return dataSource.getAllCitiesData()
-            .filter(::excludeNullSalariesAndNullPrices)
+            .filter(::excludeNullSalariesAndPrices)
             .sortedByDescending {
-                it.averageMonthlyNetSalaryAfterTax?.div(averageOfFruitsAndVegetables(it))
+                it.averageMonthlyNetSalaryAfterTax!! / (getAverageOfFruitsAndVegetables(it))
             }
-            .take( limit )
+            .take(limit)
             .map { it.cityName }
-            .takeIf { it.isNotEmpty() } ?: listOf()
+            .takeIf { it.isNotEmpty() && it.size == limit } ?: emptyList()
     }
 
-    private fun excludeNullSalariesAndNullPrices(city: CityEntity): Boolean {
+    private fun excludeNullSalariesAndPrices(city: CityEntity): Boolean {
         return city.averageMonthlyNetSalaryAfterTax != null &&
-                city.fruitAndVegetablesPrices.apples1kg != null &&
-                city.fruitAndVegetablesPrices.banana1kg != null &&
-                city.fruitAndVegetablesPrices.lettuceOneHead != null &&
-                city.fruitAndVegetablesPrices.onion1kg != null &&
-                city.fruitAndVegetablesPrices.tomato1kg != null &&
-                city.fruitAndVegetablesPrices.potato1kg != null &&
-                city.fruitAndVegetablesPrices.oranges1kg != null
+                with(city.fruitAndVegetablesPrices){
+                    apples1kg != null && banana1kg != null &&
+                    lettuceOneHead != null && onion1kg != null &&
+                    tomato1kg != null && potato1kg != null && oranges1kg != null
+                }
     }
 
-    private fun averageOfFruitsAndVegetables(city: CityEntity): Float {
-        var sum: Float
-        with(city.fruitAndVegetablesPrices) {
-            sum = apples1kg!! + banana1kg!! + lettuceOneHead!! +
+    private fun getAverageOfFruitsAndVegetables(city: CityEntity): Float {
+        return with(city.fruitAndVegetablesPrices) {
+                    apples1kg!! + banana1kg!! + lettuceOneHead!! +
                     onion1kg!! + tomato1kg!! + potato1kg!! + oranges1kg!!
-        }
-        return (sum / NUMBER_OF_FRUITS_AND_VEGETALES)
+                } / NUMBER_OF_FRUITS_AND_VEGETABLES
     }
-    object NumberOfItems {
-        const val NUMBER_OF_FRUITS_AND_VEGETALES = 7
+
+    private companion object {
+        const val NUMBER_OF_FRUITS_AND_VEGETABLES = 7
     }
 }
