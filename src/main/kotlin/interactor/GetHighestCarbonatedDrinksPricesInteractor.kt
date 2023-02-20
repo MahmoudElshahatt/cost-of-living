@@ -1,60 +1,50 @@
 package interactor
 
 import model.CityEntity
-import model.DrinksPrices
 
 
 class GetHighestCarbonatedDrinksPricesInteractor(private val dataSource: CostOfLivingDataSource) {
-    fun execute(): Set<Pair<String, Float>> {
+    fun execute(limit: Int=10): List<Pair<String, Float>>? {
 
-        val city: List<CityEntity> = dataSource.getAllCitiesData()
-            .filter { nullAndLowQualityDrinks(it) }
-            .sortedByDescending { avgPriceForASingleCity(it) }
+        val city: List<CityEntity> = dataSource.getAllCitiesData().filter { nullAndLowQualityDrinks(it) }
 
-        return if (city.isEmpty()) {
-            emptySet()
-        } else {
-            finalList(city)
+        return when {
+            city.isEmpty() -> emptyList()
+            city.size > limit -> listOfCountries(city, limit)
+            city.size < limit -> listOfCountries(city, city.size)
+
+            else -> null
         }
     }
 
     private fun nullAndLowQualityDrinks(cityEntity: CityEntity): Boolean =
-
-        cityEntity.drinksPrices.cappuccinoRegularInRestaurants != null &&
-                cityEntity.drinksPrices.milkRegularOneLiter != null &&
-                cityEntity.drinksPrices.waterAThirdOfLiterBottleInRestaurants != null &&
-                cityEntity.drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants != null &&
-                cityEntity.drinksPrices.waterOneAndHalfLiterBottleAtTheMarket != null &&
-                cityEntity.dataQuality
+        cityEntity.run {  drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants != null &&
+        dataQuality}
 
 
     // function to return the average prices for only one city
-    private fun avgPriceForASingleCity(cityEntity: CityEntity) = (cityEntity.drinksPrices.milkRegularOneLiter!! +
-            cityEntity.drinksPrices.cappuccinoRegularInRestaurants!! +
-            cityEntity.drinksPrices.waterOneAndHalfLiterBottleAtTheMarket!! +
-            cityEntity.drinksPrices.waterAThirdOfLiterBottleInRestaurants!! +
-            cityEntity.drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants!!) / 5
-
-    //a function to return the average prices for a whole country
-    private fun avgpriceforacountry(list: List<CityEntity>): Float {
-        val listofprices = mutableListOf<Float>()
-        var finalvalue = 0f
+    private fun avgPriceForACountry(list: List<CityEntity>): Float {
+        var avgPrices = 0f
         list.forEach {
-            listofprices.add(avgPriceForASingleCity(it))
+            avgPrices += it.drinksPrices.cokePepsiAThirdOfLiterBottleInRestaurants!!
         }
-        listofprices.forEach {
-            finalvalue += it
-        }
-        return  finalvalue / listofprices.size
+        return avgPrices / list.size
     }
 
-    // function to sort the list into a sorted set and return a list of 10 countries
-    fun finalList(list: List<CityEntity>) :Set<Pair<String,Float>> {
-        val finallist = mutableListOf<Pair<String, Float>>()
-        list.forEach { cityEntity ->
-            finallist .add(Pair(cityEntity.country,avgpriceforacountry(list.filter{cityEntity.country ==it.country })))
 
-        }
-        return finallist.toSet().take(10).toSet()
+    //a function to return the average prices for a whole country
+    private fun avgPricesForAListOfCountries(list: List<List<CityEntity>>): List<Float> =
+         list.map { avgPriceForACountry(it) }
+
+
+    //  sort the list into a sorted list of pairs of country and average prices
+    private fun listOfCountries(list: List<CityEntity>, limit: Int): List<Pair<String, Float>> {
+        val listOfPairsCountriesAndPrices: List<Pair<String, Float>>
+        val listOFCountries = list.groupBy { it.country }
+        val listOfPrices = avgPricesForAListOfCountries(listOFCountries.values.toList())
+
+        listOfPairsCountriesAndPrices = listOFCountries.keys.toList().zip(listOfPrices)
+
+        return listOfPairsCountriesAndPrices.sortedByDescending { it.second }.take(limit)
     }
 }
