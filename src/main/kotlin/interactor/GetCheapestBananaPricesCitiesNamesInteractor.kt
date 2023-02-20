@@ -19,7 +19,7 @@ class GetCheapestBananaPricesCitiesNamesInteractor(
             ?: listOf("Couldn't find Cities that meet your requirements !")
     }
 
-    private companion object Const {
+    private companion object {
         const val DEFAULT_LIMIT = 10
     }
 }
