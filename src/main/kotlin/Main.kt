@@ -27,7 +27,8 @@ fun main() {
 
     val getCheapestBananaPricesCitiesNamesInteractor = GetCheapestBananaPricesCitiesNamesInteractor(dataSource)
     getCheapestBananaPricesCitiesNamesInteractor.apply {
-        println(execute())
+        println("Cities with cheapest banana prices are :")
+        execute().forEach{ println(it) }
     }
     printSeparationLine()
 
