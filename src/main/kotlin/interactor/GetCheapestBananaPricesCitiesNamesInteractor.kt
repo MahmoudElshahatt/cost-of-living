@@ -1,6 +1,5 @@
 package interactor
 
-import interactor.GetCheapestBananaPricesCitiesNamesInteractor.Const.DEFAULT_LIMIT
 import model.CityEntity
 
 class GetCheapestBananaPricesCitiesNamesInteractor(
@@ -20,7 +19,7 @@ class GetCheapestBananaPricesCitiesNamesInteractor(
             ?: listOf("Couldn't find Cities that meet your requirements !")
     }
 
-    object Const {
+    private companion object Const {
         const val DEFAULT_LIMIT = 10
     }
 }
