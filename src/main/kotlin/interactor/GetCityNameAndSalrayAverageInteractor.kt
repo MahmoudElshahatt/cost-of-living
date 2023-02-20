@@ -8,30 +8,11 @@ class GetCityNameAndSalrayAverageInteractor(private val dataSource: CostOfLiving
 
     fun execute(country: String): List<Pair<String,Float>>
     {
-        val list = dataSource
-            .getAllCitiesData()
-            .filter { (it.country == country.convert()) && (it.dataQuality) }.getSalary()
-        if(list.isEmpty())
-        {
-            throw Exception("Enter Valid Country")
-        }
-        return list
+        return dataSource.getAllCitiesData().filter { (it.country.lowercase()==country.lowercase())&&(it.dataQuality)}
+            .map {Pair(it.cityName,it.averageMonthlyNetSalaryAfterTax!!)}
+            .takeIf { it.isNotEmpty() }?:throw Exception("Enter Valid Country")
+
     }
-    private fun List<CityEntity>.getSalary(): List<Pair<String, Float>> {
-        val newList = mutableListOf<Pair<String, Float>>()
-        var salary: Float
-        this.forEach{
-            salary =
-                it.averageMonthlyNetSalaryAfterTax!!
-            newList.add(Pair(it.cityName, salary))
-        }
-        return newList
-    }
-    private fun String.convert(): String {
-        return capitalize(lowercase())!!
-    }
-    private fun capitalize(str: String?): String? {
-        return str?.capitalize() ?: str
-    }
+
 
 }

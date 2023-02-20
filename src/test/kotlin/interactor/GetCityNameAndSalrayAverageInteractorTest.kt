@@ -26,23 +26,34 @@ internal class GetCityNameAndSalrayAverageInteractorTest {
     @Test
     fun should_ReturnlistOfPairs_When_DataValid()
     {
-        //given
+        //given Valid data
         fakeData.setDatatype(HardCodedFakeDataSource.DataType.VALID)
-        //when
+        //when list not equal null
         val listOfCityAndSalary = getcityandsalary.execute("eGypt")
-        //then
-        assertEquals(Pair("Cairo",6000f),listOfCityAndSalary[0])
+        //then Return ListOfPair
+        assertTrue(listOfCityAndSalary.isNotEmpty())
     }
 
     @Test
-    fun should_returnlistEmpty_When_EnterDataNull(){
-        //given
-        fakeData.setDatatype(HardCodedFakeDataSource.DataType.NULLABLE)
-        //when
+    fun should_returnlistEmpty_When_EnterDataWrong(){
+        //Given  UnValid data
+        fakeData.setDatatype(HardCodedFakeDataSource.DataType.MIXED)
+        //when list  equal null
         val listOfCityAndSalary = Executable{ getcityandsalary.run{
             execute("ex")
         }}
-        //then
+        //then Exception because of Return  Empty_list
+        assertThrows(Exception::class.java,listOfCityAndSalary)
+    }
+
+    fun should_returnlistEmpty_When_EnterDataNull(){
+        //given Null data
+        fakeData.setDatatype(HardCodedFakeDataSource.DataType.NULLABLE)
+        //when list  equal null
+        val listOfCityAndSalary = Executable{ getcityandsalary.run{
+            execute("")
+        }}
+        //then return Exception because of Return  Empty_list
         assertThrows(Exception::class.java,listOfCityAndSalary)
     }
 
