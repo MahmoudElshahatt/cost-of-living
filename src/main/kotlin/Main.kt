@@ -33,7 +33,7 @@ fun main() {
     printSeparationLine()
 
     val getBestClothesPriceCitiesNameInteractor =
-        GetTopFiveCitiesNamesForShoppingClothesFromFamousBrandsInteractor(dataSource)
+        GetTopCitiesNamesForShoppingClothesFromFamousBrandsInteractor(dataSource)
     println(getBestClothesPriceCitiesNameInteractor.execute(limit = 5))
     printSeparationLine()
 
