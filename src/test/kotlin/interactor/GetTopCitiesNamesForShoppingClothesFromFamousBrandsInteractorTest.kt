@@ -24,25 +24,25 @@ internal class GetTopCitiesNamesForShoppingClothesFromFamousBrandsInteractorTest
 
     @Test
     fun should_ReturnCorrectList_When_EnterValidData() {
-        //Given
+        //Given data in fake data class
         fakeData.setDataType(FakeDataSource.DataType.VALID)
 
-        //When
+        //When input is 5
         val list = GetTopCitiesNamesForShoppingClothesFromFamousBrandsInteractor.execute(5)
 
-        //Then
+        //Then if the list size is equal to 5 then it is valid
         assertTrue(list.size == 5)
     }
 
     @Test
     fun should_ReturnEmptyList_When_EnterNoData() {
-        //Given
+        //Given data in fake data class
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.EMPTY)
 
-        //When
+        //When input is empty
         val list = GetTopCitiesNamesForShoppingClothesFromFamousBrandsInteractor.execute(0)
 
-        //Then
+        //Then  if the list size is empty then it is invalid
         assertTrue(list.isEmpty())
     }
 
