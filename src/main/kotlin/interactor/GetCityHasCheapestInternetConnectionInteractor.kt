@@ -3,31 +3,29 @@ package interactor
 import model.CityEntity
 
 class GetCityHasCheapestInternetConnectionInteractor(
-    private val dataSource: CostOfLivingDataSource, ) {
+    private val dataSource: CostOfLivingDataSource,
+) {
 
     fun execute(limit: Int): String {
-        val list = dataSource
+        return dataSource
             .getAllCitiesData()
-            .filter(::excludeNullAverageSalaryAndServicesPrices)
-            .sortingWithBestInternetPrice()
+            .filter(::excludeNullAverageSalaryAndInterentPrices)
+            .sortedByDescending {
+                (it.averageMonthlyNetSalaryAfterTax?.div(
+                    it.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl!!
+                ))
+            }
             .take(limit)
             .map { it.cityName }
-        return if (list.isEmpty())
-            ""
-        else
-            list[0]
+            .takeIf { it.isNotEmpty() }
+            ?.first() ?: ""
     }
 
-    private fun excludeNullAverageSalaryAndServicesPrices(city: CityEntity): Boolean {
-        return city.averageMonthlyNetSalaryAfterTax != null && city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl != null
+    private fun excludeNullAverageSalaryAndInterentPrices(city: CityEntity): Boolean {
+        return city.averageMonthlyNetSalaryAfterTax != null
+                && city.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl != null
     }
 
 
-    private fun List<CityEntity>.sortingWithBestInternetPrice(): List<CityEntity> {
-        return this.sortedByDescending {
-            (it.averageMonthlyNetSalaryAfterTax?.div(
-                it.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl!!
-            ))
-        }
-    }
 }
+

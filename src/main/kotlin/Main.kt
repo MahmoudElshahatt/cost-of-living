@@ -27,7 +27,7 @@ fun main() {
 
     val getCheapestBananaPricesCitiesNamesInteractor = GetCheapestBananaPricesCitiesNamesInteractor(dataSource)
     getCheapestBananaPricesCitiesNamesInteractor.apply {
-        println(execute(*getCitiesVarArgs().toTypedArray()))
+        println(execute())
     }
     printSeparationLine()
 
@@ -51,9 +51,9 @@ fun main() {
     println(getCityManagerExpectationInteractor.execute())
     printSeparationLine()
 
-    val getCityHasHighestRentingBetweenApartmentsInteractor =
-        GetCityHasHighestRentingBetweenApartmentsInteractor(dataSource)
-    println(getCityHasHighestRentingBetweenApartmentsInteractor.execute().cityName)
+    val getCityHasHighestRentingBetweenApartmentsInteractor = GetCityHasHighestRentingBetweenApartmentsInteractor(dataSource)
+    println("The City has highest renting between apartements inside city center and outside is: "
+            +getCityHasHighestRentingBetweenApartmentsInteractor.execute().cityName)
     printSeparationLine()
 
     val getHighestCarbonatedDrinksPricesInteractor = GetHighestCarbonatedDrinksPricesInteractor(dataSource)
