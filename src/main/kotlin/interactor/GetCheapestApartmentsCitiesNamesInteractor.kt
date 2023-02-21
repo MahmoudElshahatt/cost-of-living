@@ -6,7 +6,7 @@ class GetCheapestApartmentsCitiesNamesInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
 
-    object Const {
+    private companion object {
         const val MONTHS_OF_THE_YEAR = 12
     }
 
@@ -40,6 +40,6 @@ class GetCheapestApartmentsCitiesNamesInteractor(
     */
     private fun CityEntity.calculateNumberOfYears(meters: Int): Float {
         return this.realEstatesPrices.pricePerSquareMeterToBuyApartmentOutsideOfCentre!! * meters /
-                (this.averageMonthlyNetSalaryAfterTax!! * Const.MONTHS_OF_THE_YEAR)
+                (this.averageMonthlyNetSalaryAfterTax!! * MONTHS_OF_THE_YEAR)
     }
 }
