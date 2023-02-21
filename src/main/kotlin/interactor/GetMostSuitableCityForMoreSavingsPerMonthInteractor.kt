@@ -1,12 +1,5 @@
 package interactor
 
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.BEEF_AMOUNT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.BREAD_AMOUNT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.CHEESE_AMOUNT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.CHICKEN_AMOUNT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.OTHER_NEEDS_LIMIT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.RICE_AMOUNT
-import interactor.GetMostSuitableCityForMoreSavingsPerMonthInteractor.NeedsAmounts.SALARY_DIFFERENCE
 import model.CityEntity
 
 class GetMostSuitableCityForMoreSavingsPerMonthInteractor(
@@ -45,7 +38,7 @@ class GetMostSuitableCityForMoreSavingsPerMonthInteractor(
         }
     }
 
-    object NeedsAmounts {
+    private companion object{
         const val CHICKEN_AMOUNT = 10f
         const val BREAD_AMOUNT = 30F
         const val RICE_AMOUNT = 2f
