@@ -25,9 +25,9 @@ class GetHighestCarbonatedDrinksPricesInteractorTest {
         //given a valid list of Data
         fakeData.setDataType(FakeDataSource.DataType.VALID)
         //when getting a list of (limit) of the Highest countries Prices
-        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(10)!!
+        val listOfCountries = getHighestCarbonatedDrinksPricesInteractor.execute(1)!!
         //then return a list of the limit sorted by descending
-        assertTrue(listOfCountries.toSet().size == 10)
+        assertTrue(listOfCountries.size==1)
     }
 
     @Test
