@@ -2,7 +2,6 @@ package interactor
 
 import model.CityEntity
 
-
 class GetHighestCarbonatedDrinksPricesInteractor(private val dataSource: CostOfLivingDataSource) {
     fun execute(limit: Int=10): List<Pair<String, Float>>? {
 
