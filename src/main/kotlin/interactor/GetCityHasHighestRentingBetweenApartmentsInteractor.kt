@@ -23,11 +23,11 @@ class GetCityHasHighestRentingBetweenApartmentsInteractor(
 
     private fun List<CityEntity>.sortingWithRentingPrices(): List<CityEntity> {
         return this.sortedBy {
-            (it.realEstatesPrices.apartment3BedroomsInCityCentre
-                ?.plus(it.realEstatesPrices.apartmentOneBedroomInCityCentre!!))
+            (it.realEstatesPrices.apartment3BedroomsInCityCentre!!
+                    + it.realEstatesPrices.apartmentOneBedroomInCityCentre!!)
                 ?.div(
-                    it.realEstatesPrices.apartment3BedroomsOutsideOfCentre
-                        ?.plus(it.realEstatesPrices.apartmentOneBedroomOutsideOfCentre!!)!!
+                    it.realEstatesPrices.apartment3BedroomsOutsideOfCentre!!
+                            + (it.realEstatesPrices.apartmentOneBedroomOutsideOfCentre!!)
                 )
         }
     }
