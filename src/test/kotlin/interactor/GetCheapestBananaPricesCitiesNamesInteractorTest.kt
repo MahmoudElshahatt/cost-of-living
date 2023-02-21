@@ -22,32 +22,23 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
 
     @Test
     fun should_ReturnCorrectList_When_EnterValidData() {
-        //Given
+        //Given data is valid
         fakeData.setDataType(FakeDataSource.DataType.VALID)
-        val data = getCheapestBananaPricesCitiesNamesInteractor.getCitiesVarArgs()
         //When valid data is entered
-        val list = getCheapestBananaPricesCitiesNamesInteractor.run {
-            execute(*data)
-        }
-        //Then
-        assertTrue(
-            list == data
-                .sortedBy { it.fruitAndVegetablesPrices.banana1kg }
-                .map { it.cityName }
-        )
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10)
+        
+        //Then list is sorted and its size = limit
+        assertTrue(list.size == 10)
     }
 
     @Test
-    fun should_ReturnEmptyList_When_EnterNullForAllBananaPrices() {
-        //Given
+    fun should_ReturnNotValidList_When_EnterNullForAllBananaPrices() {
+        //Given data is all null
         fakeData.setDataType(FakeDataSource.DataType.NULLABLE)
-        val data = getCheapestBananaPricesCitiesNamesInteractor.getCitiesVarArgs()
         //When entering null for all banana prices
-        val list = getCheapestBananaPricesCitiesNamesInteractor.run {
-            execute(*data)
-        }
-        //Then
-        assertTrue(list.isEmpty())
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10)
+        //Then No Valid Data is Entered ! is returned
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
     }
 
     @Test
@@ -55,12 +46,24 @@ internal class GetCheapestBananaPricesCitiesNamesInteractorTest {
         //Given empty array of CityEntities
         val array = emptyArray<CityEntity>()
 
-        //When entering no data or empty array of CityEntities to execute()
-        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(*array)
+        //When entering empty array of CityEntities to execute()
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(10, *array)
 
-        //Then
-        assertEquals(listOf("No Data is Entered !"), list)
+        //Then No Valid Data is Entered ! is returned
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
     }
 
-}
+    @Test
+    fun should_ReturnNotValidList_When_EnterNotEnoughData() {
+        //Given valid data
+        fakeData.setDataType(FakeDataSource.DataType.VALID)
 
+        //When entering empty array of CityEntities to execute()
+        val list = getCheapestBananaPricesCitiesNamesInteractor.execute(100)
+
+        //Then No Valid Data is Entered ! is returned
+        assertEquals(listOf("Couldn't find Cities that meet your requirements !"), list)
+    }
+
+
+}

@@ -22,55 +22,47 @@ internal class GetMostSuitableCityForMoreSavingsPerMonthInteractorTest {
 
     @Test
     fun should_ReturnCityEntity_When_EnterValidCityList() {
-        // given
+        // given a valid data list and expected city
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.VALID)
         val expectedCity = dataSource.parisHighQuality
-        // when
-        val cityEntity = getMostSuitableCity.run {
-            execute()
-        }
-        // then
+        // when get most suitable city
+        val cityEntity = getMostSuitableCity.execute()
+        // then return correct expected city
         assertEquals(expectedCity,cityEntity)
     }
 
     @Test
     fun should_ReturnCityEntity_When_EnterMixedCityList() {
-        // given
+        // given a mixed data list and expected city
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.MIXED)
         val expectedCity = dataSource.parisHighQuality
-        // when
-        val cityEntity = getMostSuitableCity.run {
-            execute()
-        }
-        // then
+        // when get most suitable city
+        val cityEntity = getMostSuitableCity.execute()
+        // then return correct expected city
         assertEquals(expectedCity,cityEntity)
     }
 
     @Test
     fun should_ReturnException_When_EnterEmptyCityList() {
-        // given
+        // given an empty list
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.EMPTY)
-        // when
+        // when get most suitable city
         val emptyCityEntity = Executable {
-            getMostSuitableCity.run {
-                execute()
-            }
+            getMostSuitableCity.execute()
         }
-        // then
+        // then return exception
         assertThrows(Exception::class.java,emptyCityEntity)
     }
 
     @Test
     fun should_ReturnException_When_EnterNullableCityList() {
-        // given
+        // given a nullable data list
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.NULLABLE)
-        // when
+        // when get most suitable city
         val emptyCityEntity = Executable {
-            getMostSuitableCity.run {
-                execute()
-            }
+            getMostSuitableCity.execute()
         }
-        // then
+        // then return exception
         assertThrows(Exception::class.java,emptyCityEntity)
     }
 

@@ -1,46 +1,58 @@
 package interactor
 
-import dataSource.HardCodedFakeDataSource
-import org.junit.jupiter.api.BeforeAll
+import dataSource.FakeDataSource
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetCityManagerExpectationInteractorTest {
-    private lateinit var getCityManagerExpectationInteractor: GetCityManagerExpectationInteractor
-    private lateinit var dataSource: HardCodedFakeDataSource
+    private lateinit var getCityManagerExpectationInteractor : GetCityManagerExpectationInteractor
+    private lateinit var dataSource: FakeDataSource
 
-    @BeforeAll
+    @BeforeEach
     fun init() {
-        dataSource = HardCodedFakeDataSource()
+        dataSource = FakeDataSource()
         getCityManagerExpectationInteractor =
             GetCityManagerExpectationInteractor(dataSource)
 
     }
 
     @Test
-    fun should_ReturnNotNull_When_EnterValidData() {
+    fun should_ReturnNull_When_EnterInvalidData() {
         //Given Valid data
-        dataSource = HardCodedFakeDataSource()
+        dataSource.setDataType(FakeDataSource.DataType.NULLABLE)
 
         //When list not equal null
-        val cityName = getCityManagerExpectationInteractor.execute()
+        val cityName = getCityManagerExpectationInteractor.execute("United States" ,  "Canada","Mexico")
 
         //Then
-        assertNotNull(cityName)
+        assertNull(cityName)
     }
 
     @Test
     fun should_ReturnCorrectCity_When_EnterValidData() {
         //Given Valid data
-        dataSource = HardCodedFakeDataSource()
+        dataSource.setDataType(FakeDataSource.DataType.VALID)
 
         //When list Enter Valid Data
-        val cityName = getCityManagerExpectationInteractor.execute()
+        val cityName = getCityManagerExpectationInteractor.execute("United States" , "Canada","Mexico")
 
         //Then
-        assertEquals("Mexico", cityName)
+        assertEquals("New York", cityName)
+    }
+
+    @Test
+    fun should_ReturnNull_When_EnterNonExitsCountries() {
+        //Given Valid data
+        dataSource.setDataType(FakeDataSource.DataType.VALID)
+
+        //When list Enter Valid Data
+        val cityName = getCityManagerExpectationInteractor.execute("Polanda" , "nour","ahmed")
+
+        //Then
+        assertNull(cityName)
     }
 }

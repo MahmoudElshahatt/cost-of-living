@@ -10,10 +10,11 @@ import org.junit.jupiter.api.function.Executable
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class GetCityHasHighestRentingBetweenApartmentsInteractorTest {
     private lateinit var dataSource: HardCodedFakeDataSource
-    private lateinit var getCityHasHighestRentingBetweenApartmentsInteractor: GetCityHasHighestRentingBetweenApartmentsInteractor
+    private lateinit var getCityHasHighestRentingBetweenApartmentsInteractor
+                          : GetCityHasHighestRentingBetweenApartmentsInteractor
 
     @BeforeAll
-    fun init(){
+    fun init() {
         dataSource = HardCodedFakeDataSource()
         getCityHasHighestRentingBetweenApartmentsInteractor =
             GetCityHasHighestRentingBetweenApartmentsInteractor(dataSource)
@@ -21,55 +22,50 @@ internal class GetCityHasHighestRentingBetweenApartmentsInteractorTest {
 
     @Test
     fun should_ReturnCityEntity_When_EnterValidCityList() {
-        // given
+        // given a valid data city list with high quality & expected city
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.VALID)
         val expectedCity = dataSource.cairoHighQuality
-        // when
-        val cityEntity = getCityHasHighestRentingBetweenApartmentsInteractor.run {
-            execute()
-        }
-        // then
+        // when data not equal null
+        val cityEntity = getCityHasHighestRentingBetweenApartmentsInteractor.execute()
+
+        // then return the city entity has highest appartement
         assertEquals(expectedCity, cityEntity)
     }
 
     @Test
     fun should_ReturnCityEntity_When_EnterMixedCityList() {
-        // given
+        // given a mixed data & expected city
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.MIXED)
         val expectedCity = dataSource.cairoHighQuality
-        // when
-        val cityEntity = getCityHasHighestRentingBetweenApartmentsInteractor.run {
-            execute()
-        }
-        // then
+        // when data might include null
+        val cityEntity = getCityHasHighestRentingBetweenApartmentsInteractor.execute()
+
+        // then return right expected city
         assertEquals(expectedCity, cityEntity)
     }
 
     @Test
     fun should_ReturnException_When_EnterEmptyCityList() {
-        // given
+        // given an empty list
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.EMPTY)
-        // when
+        // when get city has highest renting
         val emptyCityEntity = Executable {
-            getCityHasHighestRentingBetweenApartmentsInteractor.run {
-                execute()
-            }
+            getCityHasHighestRentingBetweenApartmentsInteractor.execute()
+
         }
-        // then
+        // then return exception
         assertThrows(Exception::class.java, emptyCityEntity)
     }
 
     @Test
     fun should_ReturnException_When_EnterNullableCityList() {
-        // given
+        // given a nullable data
         dataSource.setDatatype(HardCodedFakeDataSource.DataType.NULLABLE)
-        // when
+        // when get city has highest renting
         val emptyCityEntity = Executable {
-            getCityHasHighestRentingBetweenApartmentsInteractor.run {
-                execute()
-            }
+            getCityHasHighestRentingBetweenApartmentsInteractor.execute()
         }
-        // then
+        // then return exception
         assertThrows(Exception::class.java, emptyCityEntity)
     }
 }

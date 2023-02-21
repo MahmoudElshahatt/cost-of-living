@@ -2,33 +2,24 @@ package interactor
 
 import model.CityEntity
 
-class  GetCheapestBananaPricesCitiesNamesInteractor(
+class GetCheapestBananaPricesCitiesNamesInteractor(
     private val dataSource: CostOfLivingDataSource
 ) {
 
-    fun getCitiesVarArgs(): Array<CityEntity> {
-        return dataSource.getAllCitiesData().toTypedArray()
-    }
-    fun execute(vararg cityEntities: CityEntity): List<String> {
-        return if (cityEntities.isEmpty())
-            listOf("No Data is Entered !")
-        else cityEntities
-            .filter(::excludeNullBananaPrices)
-            .sortingWithBananaPrices()
+    fun execute(
+        limit: Int = DEFAULT_LIMIT,
+        vararg cityEntities: CityEntity = dataSource.getAllCitiesData().toTypedArray()
+    ): List<String> {
+        return cityEntities
+            .filter { it.fruitAndVegetablesPrices.banana1kg != null }
+            .sortedBy { it.fruitAndVegetablesPrices.banana1kg }
+            .take(limit)
             .map { it.cityName }
+            .takeIf { it.isNotEmpty() && it.size == limit }
+            ?: listOf("Couldn't find Cities that meet your requirements !")
     }
 
-    private fun excludeNullBananaPrices(city: CityEntity): Boolean {
-        return city.fruitAndVegetablesPrices.banana1kg != null
-    }
-
-    /**
-     * Sort the list with the banana prices between CityEntities.
-     * @return sorted List<CityEntity>
-     */
-    private fun List<CityEntity>.sortingWithBananaPrices(): List<CityEntity> {
-        return this.sortedBy {
-            it.fruitAndVegetablesPrices.banana1kg
-        }
+    private companion object {
+        const val DEFAULT_LIMIT = 10
     }
 }
