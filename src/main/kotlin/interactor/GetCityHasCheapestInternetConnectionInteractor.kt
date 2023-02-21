@@ -11,9 +11,8 @@ class GetCityHasCheapestInternetConnectionInteractor(
             .getAllCitiesData()
             .filter(::excludeNullAverageSalaryAndInterentPrices)
             .sortedByDescending {
-                (it.averageMonthlyNetSalaryAfterTax?.div(
+                it.averageMonthlyNetSalaryAfterTax!! /
                     it.servicesPrices.internet60MbpsOrMoreUnlimitedDataCableAdsl!!
-                ))
             }
             .take(limit)
             .map { it.cityName }
